@@ -27,9 +27,11 @@ const App = () => {
   const [newPassword, setNewPassword] = useState('')
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+    blogService.getAll().then(blogs => {
 
+      setBlogs(sortBlogs(blogs))
+
+    }
     )
 
   }, [])
@@ -39,6 +41,8 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+    } else {
+      setLoginVisible(true)
     }
   }, [])
   const registerNewUser = async (event) => {
@@ -117,7 +121,7 @@ const App = () => {
     return (
       <div>
         <div style={hideWhenVisible}>
-          <button onClick={() => setRegisterVisible(true)}>Register</button>
+          <button id='showRegister' onClick={() => setRegisterVisible(true)}>Register</button>
         </div>
         <div style={showWhenVisible}>
           < RegisterForm
@@ -159,7 +163,7 @@ const App = () => {
         const token = user.token
         blogService.deleteBlog(selectedBlog.id, token).then(() => {
           blogService.getAll().then(blogs =>
-            setBlogs(blogs)
+            setBlogs(sortBlogs(blogs))
 
           )
         })
@@ -191,7 +195,9 @@ const App = () => {
       }
       setConfirmMessage(`Added ${blog.title} from ${blog.author}`)
       setBlogFormVisible(false)
-
+      blogService.getAll().then(blogs =>
+        setBlogs(sortBlogs(blogs))
+      )
       setTimeout(() => {
         setConfirmMessage(null)
       }, 4000)
@@ -205,7 +211,7 @@ const App = () => {
     }
 
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      setBlogs(sortBlogs(blogs))
     )
   }
   const blogForm = () => {
@@ -215,7 +221,7 @@ const App = () => {
     return (
       <div>
         <div style={hideWhenVisible}>
-          <button onClick={() => setBlogFormVisible(true)}>Create blog</button>
+          <button id='showBlogForm' onClick={() => setBlogFormVisible(true)}>Create blog</button>
         </div>
         <div style={showWhenVisible}>
           <BlogForm
@@ -235,6 +241,13 @@ const App = () => {
 
   }
 
+  const sortBlogs = (blogs) => {
+    const sortedBlogs = [].concat(blogs)
+    sortedBlogs.sort((a, b) => a.likes - b.likes)
+    sortedBlogs.reverse()
+
+    return sortedBlogs
+  }
 
 
 
@@ -243,7 +256,7 @@ const App = () => {
       <NotificationError message={errorMessage} />
       <NotificationConfirm message={confirmMessage} />
       {user === null ? loginForm() : <div>
-        <p>{user.name} logged in </p><button onClick={() => {
+        <p>{user.name} logged in </p><button id='logout' onClick={() => {
           setUser(null)
           setUsername('')
           setPassword('')
@@ -260,9 +273,12 @@ const App = () => {
       {user === null ? registerForm() : <div></div>}
 
       <h2>Blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} userBlogs={user === null ? undefined : user.blogs} />
-      )}
+      <div id='allblogs'>
+        {
+          sortBlogs(blogs).map(blog =>
+            <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} userBlogs={user === null ? undefined : user.blogs} />
+          )}
+      </div>
     </div>
   )
 }

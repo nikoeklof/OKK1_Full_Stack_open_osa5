@@ -15,16 +15,18 @@ const RegisterForm = ({
 
       <form onSubmit={registerNewUser} autoComplete="new-password">
         <div>
-                    username
+          username
           <input
+            id='registerUsername'
             value={newUsername}
             onChange={setNewUsername}
             autoComplete="off"
           />
         </div>
         <div>
-                    password
+          password
           <input
+            id='registerPassword'
             type="password"
             value={newPassword}
             onChange={setNewPassword}
@@ -32,25 +34,26 @@ const RegisterForm = ({
           />
         </div>
         <div>
-                    display name
+          display name
           <input
+            id='registerDisplayName'
             value={name}
             onChange={setName}
             autoComplete="off"
           />
         </div>
-        <button type="submit">Register</button>
+        <button id='confirmRegister' type="submit">Register</button>
       </form>
     </div>
   )
 }
 RegisterForm.propTypes = ({
-  registerNewUser:PropTypes.func.isRequired,
-  setNewUsername:PropTypes.func.isRequired,
-  setNewPassword:PropTypes.func.isRequired,
-  newUsername:PropTypes.string.isRequired,
-  newPassword:PropTypes.string.isRequired,
-  name:PropTypes.string.isRequired,
-  setName:PropTypes.func.isRequired,
+  registerNewUser: PropTypes.func.isRequired,
+  setNewUsername: PropTypes.func.isRequired,
+  setNewPassword: PropTypes.func.isRequired,
+  newUsername: PropTypes.string.isRequired,
+  newPassword: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  setName: PropTypes.func.isRequired,
 })
 export default RegisterForm

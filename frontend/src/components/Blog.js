@@ -28,11 +28,11 @@ const Blog = ({ blog, addLike, userBlogs, removeBlog }) => {
       }
     })
     return (
-      <div>
+      <div id='blogDiv'>
         <div style={hideWhenVisible}>
-          <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+          <button id='showBlog' onClick={toggleVisibility}>{props.buttonLabel}</button>
         </div>
-        <div style={showWhenVisible}>
+        <div style={showWhenVisible} className="togglableContent">
           {props.children}
           <button onClick={toggleVisibility}>cancel</button>
         </div>
@@ -49,13 +49,15 @@ const Blog = ({ blog, addLike, userBlogs, removeBlog }) => {
         return (
           <div className='blogs' style={blogStyle}>
 
-            {blog.title} < br ></br> From {blog.author}
+            <a> {blog.title} < br ></br> From {blog.author}</a>
+            <div className='hiddenByDefault'>
+              <Togglable buttonLabel="Show" ref={reference}>
+                <p role="blogLikes"> Likes: {blog.likes}</p><button onClick={() => addLike(blog.id)}>Like</button><br></br>
+                <a href={blog.url} target="_blank" rel='noreferrer' role="blogUrl">Link</a> <br></br>
 
-            <Togglable buttonLabel="Show" ref={reference}>
-              Likes: {blog.likes} <button onClick={() => addLike(blog.id)}>Like</button> <br></br>
-              <a href={blog.url} target="_blank" rel='noreferrer'>Link</a> <br></br>
-              <button onClick={() => removeBlog(blog.id)}>Remove</button>
-            </Togglable>
+                <button id='removeBlog' onClick={() => removeBlog(blog.id)}>Remove</button>
+              </Togglable>
+            </div>
           </div>
         )
 
@@ -64,13 +66,15 @@ const Blog = ({ blog, addLike, userBlogs, removeBlog }) => {
     return (
       <div className='blogs' style={blogStyle}>
 
-        {blog.title} < br ></br> From {blog.author}
+        <a> {blog.title} < br ></br> From {blog.author}</a>
+        <div className='hiddenByDefault'>
+          <Togglable buttonLabel="Show" ref={reference}>
+            <p role="blogLikes"> Likes: {blog.likes}</p><button onClick={() => addLike(blog.id)}>Like</button><br></br>
+            <a href={blog.url} target="_blank" rel='noreferrer' role="blogUrl">Link</a> <br></br>
 
-        <Togglable buttonLabel="Show" ref={reference}>
-          Likes: {blog.likes} <button onClick={() => addLike(blog.id)}>Like</button> <br></br>
-          <a href={blog.url} target="_blank" rel='noreferrer'>Link</a> <br></br>
 
-        </Togglable>
+          </Togglable>
+        </div>
       </div>
     )
 
@@ -78,13 +82,15 @@ const Blog = ({ blog, addLike, userBlogs, removeBlog }) => {
     return (
       <div className='blogs' style={blogStyle}>
 
-        {blog.title} < br ></br> From {blog.author}
+        <a> {blog.title} < br ></br> From {blog.author}</a>
+        <div className='hiddenByDefault'>
+          <Togglable buttonLabel="Show" ref={reference}>
+            <p role="blogLikes"> Likes: {blog.likes}</p><button onClick={() => addLike(blog.id)}>Like</button><br></br>
+            <a href={blog.url} target="_blank" rel='noreferrer' role="blogUrl">Link</a> <br></br>
 
-        <Togglable buttonLabel="Show" ref={reference}>
-          Likes: {blog.likes} <button onClick={() => addLike(blog.id)}>Like</button> <br></br>
-          <a href={blog.url} target="_blank" rel='noreferrer'>Link</a> <br></br>
 
-        </Togglable>
+          </Togglable>
+        </div>
       </div>
     )
   }
